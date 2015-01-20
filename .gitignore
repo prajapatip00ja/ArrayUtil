@@ -1,0 +1,5 @@
+ctest*
+*TestRunner.c
+*.exe
+*.exe.core
+*.o
