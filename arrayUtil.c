@@ -76,11 +76,11 @@ int *isDivisable(void *hint, void *item){
 
 
 void* findFirst(struct arrayUtil a, int *(*matchFunc)(void*,void*), void* hint){
-	int i;
+	int i ,*aBase;
 	void *ele;
-
+	aBase = (int*)(a.base);
 	for( i = 0 ; i<a.length ; i++){
-		
+		ele = (*matchFunc)((void*)aBase[i],hint);
 	}
 	return 0;
 }
