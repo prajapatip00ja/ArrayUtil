@@ -17,12 +17,13 @@ struct arrayUtil create(int typeSize,int length){
 
 int isEqual(struct arrayUtil a1,struct arrayUtil a2){
 	int flag = 0;
-	int *a1Base;
-	int *a2Base,i;
-	a1Base = (int*)(a1.base);
-	a2Base = (int*)(a2.base);
+	char *a1Base;
+	char *a2Base,i;
+	a1Base = (char*)(a1.base);
+	a2Base = (char*)(a2.base);
+
 	if(a1.typeSize == a2.typeSize && a1.length == a2.length){
-		for(i = 0; i< a1.length ; i++){
+		for(i = 0; i< (a1.length*a1.typeSize); i++){
 			if(a1Base[i] == a2Base[i]){
 				flag = 1;
 			}
@@ -33,21 +34,20 @@ int isEqual(struct arrayUtil a1,struct arrayUtil a2){
 	return flag;
 }
 
-struct arrayUtil resize(struct arrayUtil a1,int length){
-	int i,size;
-	int *a1Base;
-	
-	a1.base = realloc(a1.base,length);
-	a1Base = (int*)(a1.base);
+struct arrayUtil resize(struct arrayUtil util,int length){
+	int i;
+	char *utilBase;
+	utilBase = (char*)(util.base);
+	utilBase = realloc(utilBase,length*util.typeSize);
 
-	if(length>a1.length){
-		for(i = a1.length; i<length ; i++){
-			a1Base[i] = 0;
+	if(length>util.length){
+		for( i = (util.length*util.typeSize); i<(length*util.typeSize); i++){
+			utilBase[i] = 0;
 		}
 	}
 
-	a1.length = length;	
-	return a1;
+	util.length = length;	
+	return util;
 }
 
 void dispose(struct arrayUtil a1){
@@ -57,34 +57,46 @@ void dispose(struct arrayUtil a1){
 } 
 
 int findIndex(struct arrayUtil a,void *x){
-	int *aBase,i,index;
-	int *ele;
-	ele = (int*)x;
-	aBase = (int*)(a.base);
-	index = -1;
-	for(i = 0; i<a.length; i++){
-		if(aBase[i] == *ele)
-			index = i;
+	int i,j,index = -1;
+	char *ele = (char*)x;
+	char *aBase = (char*)(a.base);
+
+	for(i = 0; i<(a.length*a.typeSize); i = i+a.typeSize){
+	int count = 0;
+		for(j = 0 ; j< a.typeSize; j++,i++){
+			if(aBase[i] == ele[j]){
+				count = count+1;
+			}
+		}
+		i = i-a.typeSize;
+		if(count==a.typeSize)
+			index = (i+1)/(a.typeSize);
 	}
 	return index;
-
 }
 
-int *isDivisable(void *hint, void *item){
-
-}
-
-
-void* findFirst(struct arrayUtil a, int *(*matchFunc)(void*,void*), void* hint){
-	int i ,*aBase;
-	void *ele;
-	aBase = (int*)(a.base);
-	for( i = 0 ; i<a.length ; i++){
-		ele = (*matchFunc)((void*)aBase[i],hint);
+int isDivisable(void* hint, void* item){
+	if((int)item%*(int*)hint==0){
+		return 1;
 	}
 	return 0;
 }
 
+
+void *findFirst(struct arrayUtil util, int (*matchFunc)(void*,void*), void* hint){
+	int ele;
+	int i,status;
+	int *utilBase = (int*)(util.base);
+
+	for( i = 0 ; i<(util.length); i++){
+		status = (*matchFunc)(hint,(void*)utilBase[i]);
+		if(status == 1){
+			ele = utilBase[i];
+			break;
+		}
+	}
+	return (void*)ele;
+}
 
 
 
