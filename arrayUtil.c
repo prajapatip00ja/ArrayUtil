@@ -57,12 +57,11 @@ void dispose(struct arrayUtil a1){
 } 
 
 int findIndex(struct arrayUtil a,void *x){
-	int i,j,index = -1;
+	int i,j,index = -1,count;
 	char *ele = (char*)x;
 	char *aBase = (char*)(a.base);
-
 	for(i = 0; i<(a.length*a.typeSize); i = i+a.typeSize){
-	int count = 0;
+		count = 0;
 		for(j = 0 ; j< a.typeSize; j++,i++){
 			if(aBase[i] == ele[j]){
 				count = count+1;
@@ -74,6 +73,7 @@ int findIndex(struct arrayUtil a,void *x){
 	}
 	return index;
 }
+
 
 int isDivisable(void *hint, void *item){
 	if(*(int*)item % *(int*)hint==0){
