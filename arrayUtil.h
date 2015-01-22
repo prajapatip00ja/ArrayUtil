@@ -11,4 +11,6 @@ int isEqual(struct arrayUtil a1,struct arrayUtil a2);
 struct arrayUtil resize(struct arrayUtil a1,int length);
 int findIndex(struct arrayUtil a1,void *x);
 int (isDivisable)(void*, void*);
-void *findFirst(struct arrayUtil a, int (*matchFunc)(void*,void*), void* hint);
+int (isMatch)(void*,void*);
+void *find_first_element(struct arrayUtil a, int (*matchFunc)(void*,void*), void* hint);
+void *find_first_last_element(struct arrayUtil util,int (*matchFunc)(void*,void*),void* hint);

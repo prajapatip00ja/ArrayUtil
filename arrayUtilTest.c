@@ -148,30 +148,76 @@ void test_findIndex_gives_minusOne_if_element_is_not_present_in_array(){
 	assertEqual(index,-1);
 }
 
-void test_find_first_match(){
-	int A[] = {8,16,24};
-	int *first_ele;
+void test_find_first_match_of_int_array(){
+	int A[] = {3,16,24};
+	void *first_ele;
 	int hint = 4;
 	struct arrayUtil util = create(4,3);
 	int (*matchFunc)(void*, void*);
 	matchFunc = &(isDivisable);
 	util.base = (void*)A;
-
-	first_ele = findFirst(util,matchFunc,(void*)(&hint));
-
-	assertEqual((int)first_ele,8);
+	first_ele = find_first_element(util,matchFunc,(void*)(&hint));
+	assertEqual(*(int*)first_ele,16);
 }
 
-// void test_find_first_match(){
+// void test_find_first_match_float(){
 // 	float A[] = {8.160000,16.320000,24.480000};
-// 	float *first_ele;
-// 	int hint = 4;
-// 	struct arrayUtil util = create(4,3);
+// 	void *first_ele;
+// 	float hint = 4.000000;
+// 	struct arrayUtil util = create(sizeof(float),3);
 // 	int (*matchFunc)(void*, void*);
 // 	matchFunc = &(isDivisable);
 // 	util.base = (void*)A;
-
 // 	first_ele = findFirst(util,matchFunc,(void*)(&hint));
 
-// 	assertEqual((int)first_ele,8);
+// 	assertEqual(*(float*)first_ele,8.1600000);
 // }
+
+void test_find_first_match_char_array(){
+	char A[] = {'a','b','c'};
+	void *first_ele;
+	char hint = 'b';
+	struct arrayUtil util = create(sizeof(char),3);
+	int (*matchFunc)(void*, void*);
+	matchFunc = &(isMatch);
+	util.base = (void*)A;
+	first_ele = find_first_element(util,matchFunc,(void*)(&hint));
+	assertEqual(*(char*)first_ele,'b');
+}
+
+void test_find_last_match_in_char_array(){
+	char A[] = {'a','b','c'};
+	void *last_ele;
+	char hint = 'a';
+	struct arrayUtil util = create(sizeof(char),3);
+	int (*matchFunc)(void*, void*);
+	matchFunc = &(isMatch);
+	util.base = (void*)A;
+	last_ele = find_first_last_element(util,matchFunc,(void*)(&hint));
+	assertEqual(*(char*)last_ele,'a');
+}
+
+void test_find_last_match_in_int_array(){
+	int A[] = {3,16,9};
+	void *last_ele;
+	int hint = 8;
+	struct arrayUtil util = create(sizeof(int),3);
+	int (*matchFunc)(void*, void*);
+	matchFunc = &(isDivisable);
+	util.base = (void*)A;
+	last_ele = find_first_last_element(util,matchFunc,(void*)(&hint));
+	assertEqual(*(int*)last_ele,16);
+}
+
+void test_count_the_element_of_matching_criteria_in_int_array(){
+	int A[] = {3,16,24};
+	int count;
+	int hint = 4;
+	struct arrayUtil util = create(INT_SIZE,3);
+	int (*matchFunc)(void*, void*);
+	matchFunc = &(isDivisable);
+	util.base = (void*)A;
+	count = count_element(util,matchFunc,(void*)(&hint));
+	//assertEqual(*(int*)first_ele,16);
+}
+

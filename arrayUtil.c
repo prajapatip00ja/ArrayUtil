@@ -75,28 +75,57 @@ int findIndex(struct arrayUtil a,void *x){
 	return index;
 }
 
-int isDivisable(void* hint, void* item){
-	if((int)item%*(int*)hint==0){
+int isDivisable(void *hint, void *item){
+	if(*(int*)item % *(int*)hint==0){
 		return 1;
 	}
 	return 0;
 }
 
+int (isMatch)(void *hint,void *item){
+ 	if(*(char*)item == *(char*)hint){
+ 		return 1;
+ 	}
+ 	return 0;
+}
 
-void *findFirst(struct arrayUtil util, int (*matchFunc)(void*,void*), void* hint){
-	int ele;
+
+void *find_first_element(struct arrayUtil util, int (*matchFunc)(void*,void*), void *hint){
+	void *ele;
 	int i,status;
-	int *utilBase = (int*)(util.base);
+	char *utilBase = (char*)(util.base);
 
-	for( i = 0 ; i<(util.length); i++){
-		status = (*matchFunc)(hint,(void*)utilBase[i]);
+
+	for( i = 1 ; i<=(util.length*util.typeSize); i = i+i*util.typeSize){
+		status = (*matchFunc)(hint,(void*)(utilBase+(i-1)));
 		if(status == 1){
-			ele = utilBase[i];
+			ele = (utilBase+(i-1));
 			break;
 		}
 	}
-	return (void*)ele;
+	return ele;
 }
+
+void *find_first_last_element(struct arrayUtil util,int (*matchFunc)(void*,void*),void* hint){
+	void *ele;
+	int i,status;
+	char *utilBase = (char*)(util.base);
+
+	for( i= (util.length*util.typeSize)-util.typeSize  ; i >=0 ; i = i-util.typeSize){
+		status = (*matchFunc)(hint,(void*)(utilBase+(i)));
+		if(status == 1){
+			ele = (utilBase+(i));
+			break;
+		}
+	}
+	return ele;
+}
+
+
+
+
+
+
 
 
 
