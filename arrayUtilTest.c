@@ -218,6 +218,18 @@ void test_count_the_element_of_matching_criteria_in_int_array(){
 	matchFunc = &(isDivisable);
 	util.base = (void*)A;
 	count = count_element(util,matchFunc,(void*)(&hint));
-	//assertEqual(*(int*)first_ele,16);
+	assertEqual(count,2);
+}
+
+void test_count_the_element_of_matching_criteria_in_char_array(){
+	char A[] = {'a','b','c'};
+	int count;
+	char hint = 'a';
+	struct arrayUtil util = create(sizeof(char),3);
+	int (*matchFunc)(void*, void*);
+	matchFunc = &(isMatch);
+	util.base = (void*)A;
+	count = count_element(util,matchFunc,(void*)(&hint));
+	assertEqual(count,1);	
 }
 

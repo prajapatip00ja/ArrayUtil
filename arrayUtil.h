@@ -14,3 +14,4 @@ int (isDivisable)(void*, void*);
 int (isMatch)(void*,void*);
 void *find_first_element(struct arrayUtil a, int (*matchFunc)(void*,void*), void* hint);
 void *find_first_last_element(struct arrayUtil util,int (*matchFunc)(void*,void*),void* hint);
+int count_element(struct arrayUtil util,int (*matchFunc)(void*,void*),void* hint);

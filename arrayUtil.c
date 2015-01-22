@@ -82,6 +82,24 @@ int isDivisable(void *hint, void *item){
 	return 0;
 }
 
+int count_element(struct arrayUtil util,int (*matchFunc)(void*,void*),void* hint){
+	int count =0;
+	int i,status;
+	char *utilBase = (char*)(util.base);
+
+	for( i = 1 ; i<(util.length*util.typeSize); i = i+util.typeSize){
+		status = (*matchFunc)(hint,(void*)(utilBase+(i-1)));
+		if(status == 1){
+			count++;
+		}
+	}
+	return count;
+}
+
+
+
+
+
 int (isMatch)(void *hint,void *item){
  	if(*(char*)item == *(char*)hint){
  		return 1;
@@ -120,6 +138,8 @@ void *find_first_last_element(struct arrayUtil util,int (*matchFunc)(void*,void*
 	}
 	return ele;
 }
+
+
 
 
 
